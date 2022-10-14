@@ -228,9 +228,11 @@ class Decoder(srd.Decoder):
 				is_upper = False
 				out = ""
 				while (len(self.nible) > 0):
-					ch1 = self.nible[3] << 8 | self.nible[1] << 4 | self.nible[0];
+					ch1 = self.nible[3] << 8 | self.nible[0] << 4 | self.nible[1];
 					ch2 = self.nible[4] << 8 | self.nible[5] << 4 | self.nible[2];
+
 					out += "%04u %04u" % (ch1, ch2)
+					#out += "%X %X %X %X %X %X" % (self.nible[0], self.nible[1], self.nible[2], self.nible[3], self.nible[4], self.nible[5])
 					for x in range(0, 6):
 						self.nible.pop(0)
 
@@ -359,11 +361,11 @@ class Decoder(srd.Decoder):
 			# Report the period in units of time.
 			period_t = float(period / self.samplerate)
 			
-			if period_t>=0.000023 and period_t<= 0.000025:
+			if period_t>=0.000020 and period_t<= 0.000028:
 				#self.put(self.ss_block, self.es_block, self.out_ann, [1, ["1"]])
 				self.addBit(1)
 
-			if period_t>=0.000015 and period_t<=0.000017:
+			if period_t>=0.000012 and period_t<=0.000018:
 				#self.put(self.ss_block, self.es_block, self.out_ann, [1, ["0"]])
 				self.addBit(0)
 
